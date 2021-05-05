@@ -10,3 +10,5 @@ Java, Maven, log4j, slf4j, Servlets, Hibernate, PostgreSQL, MVC Pattern, Travis 
 jQuery, Ajax, JSON, Apache Tomcat, bootstrap
 
 **Demonstration of the application:**
+
+![alt text](images/TODO List.png)
