@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import ru.job4j.model.Item;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import ru.job4j.model.User;
 import ru.job4j.store.HiberStore;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -35,6 +36,7 @@ public class IndexServlet extends HttpServlet {
             json.put("description", task.getDescription());
             json.put("created", task.getCreated());
             json.put("done", task.isDone());
+            json.put("userName", task.getUser().getName());
             ar.put(json);
         }
         writer.println(ar);
@@ -55,15 +57,17 @@ public class IndexServlet extends HttpServlet {
             resp.setCharacterEncoding("UTF-8");
             resp.setHeader("Access-Control-Allow-Origin", "*");
             String description = req.getParameter("description");
-
+            User user = (User) req.getSession().getAttribute("user");
+            System.out.println(user.getName());
             Item item = HiberStore.instOf().create(
-                    new Item(description, false));
+                    new Item(description, false, user));
             PrintWriter writer = new PrintWriter(resp.getOutputStream(),
                     true, StandardCharsets.UTF_8);
             JSONObject json = new JSONObject();
             json.put("idTask", item.getId());
             json.put("description", item.getDescription());
             json.put("created", item.getCreated());
+            json.put("userName", item.getUser().getName());
             json.put("done", item.isDone());
             writer.println(json);
             writer.flush();

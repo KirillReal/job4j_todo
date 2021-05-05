@@ -13,6 +13,10 @@ public class Item {
     private Timestamp created;
     private boolean done;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Item() {
     }
 
@@ -31,6 +35,14 @@ public class Item {
         this.description = description;
         this.created = created;
         this.done = done;
+    }
+
+    public Item(String description, boolean done, User user) {
+        this.description = description;
+        long droppedMillis = 1000 * (System.currentTimeMillis() / 1000);
+        this.created = new Timestamp(droppedMillis);
+        this.done = done;
+        this.user = user;
     }
 
     public Item(String description, boolean done) {
@@ -72,13 +84,23 @@ public class Item {
         this.done = done;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
     @Override
     public String toString() {
         return "Item{"
                 + "id=" + id
                 + ", description='" + description + '\''
                 + ", created=" + created
-                + ", finished=" + done
+                + ", done=" + done
+                + ", user=" + user
                 + '}';
     }
 }
