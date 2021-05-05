@@ -72,7 +72,7 @@ public class HiberStore implements Store, AutoCloseable {
 
     @Override
     public Collection<Item> findAll() {
-        return this.tx( session ->
+        return this.tx(session ->
                 session.createQuery("from ru.job4j.model.Item").list());
     }
 
