@@ -10,7 +10,7 @@ function saveItem() {
             let addTr = '<tr>'
                 + '<td>' + data.idTask + '</td>'
                 + '<td>' + data.description + '</td>'
-                + '<td>' + data.creatDate + '</td>';
+                + '<td>' + data.created + '</td>';
             addTr += '<td>' + '<input type="checkbox" name="done" id="' + data.idTask + '" onchange = "finishTask(this.id)"'
                 + 'value="' + data.idTask + '">' + '</td>' + '</tr>';
             $('#table tr:last').after(addTr);
@@ -33,8 +33,8 @@ function loadAll() {
             addTr += '<tr>'
                 + '<td>' + item.idTask + '</td>'
                 + '<td>' + item.description + '</td>'
-                + '<td>' + item.creatDate + '</td>';
-            if (item.finished !== true) {
+                + '<td>' + item.created + '</td>';
+            if (item.done !== true) {
                 addTr += '<td>' + '<input type="checkbox" name="done" id="' + item.idTask + '" onchange = "finishTask(this.id)"'
                     + 'value="' + item.idTask + '">' + '</td>' + '</tr>';
             } else {
@@ -61,11 +61,11 @@ function viewTasks() {
             loadAll();
         } else {
             $.each(data, function (i, item) {
-                if (item.finished !== true) {
+                if (item.done !== true) {
                     addTr += '<tr>'
                         + '<td>' + item.idTask + '</td>'
                         + '<td>' + item.description + '</td>'
-                        + '<td>' + item.creatDate + '</td>';
+                        + '<td>' + item.created + '</td>';
                     addTr += '<td>' + '<input type="checkbox" name="done" id="' + item.idTask + '" onchange = "finishTask(this.id)"'
                         + 'value="' + item.idTask + '">' + '</td>' + '</tr>';
                 }
@@ -90,7 +90,7 @@ function finishTask(id) {
         url: 'http://localhost:8080/TODO/index',
         data: {idTask: id},
     }).done(
-        alert("task №" + id + " is finished"));
+        alert("task №" + id + " is done"));
 }
 
 

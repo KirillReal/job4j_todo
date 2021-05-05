@@ -7,7 +7,7 @@ services:
   - postgresql
 
 before_install:
-  - psql -c 'create database job4j_todo_test;' -U postgres
+  - psql -c 'create database job4j_todo;' -U postgres
 
 # используем режим обычного пользователя для сборки проекта.
 sudo: false

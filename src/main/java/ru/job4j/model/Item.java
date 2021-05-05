@@ -68,7 +68,7 @@ public class Item {
         return done;
     }
 
-    public void setFinished(boolean finished) {
+    public void setFinished(boolean done) {
         this.done = done;
     }
 
@@ -77,7 +77,7 @@ public class Item {
         return "Item{"
                 + "id=" + id
                 + ", description='" + description + '\''
-                + ", createDate=" + created
+                + ", created=" + created
                 + ", finished=" + done
                 + '}';
     }
