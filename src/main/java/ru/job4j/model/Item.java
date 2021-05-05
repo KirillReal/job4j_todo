@@ -10,8 +10,8 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String description;
-    private Timestamp createDate;
-    private boolean finished;
+    private Timestamp created;
+    private boolean done;
 
     public Item() {
     }
@@ -20,24 +20,24 @@ public class Item {
         this.id = id;
     }
 
-    public Item(int id, String description, Timestamp created, boolean finished) {
+    public Item(int id, String description, Timestamp created, boolean done) {
         this.id = id;
         this.description = description;
-        this.createDate = created;
-        this.finished = finished;
+        this.created = created;
+        this.done = done;
     }
 
-    public Item(String description, Timestamp created, boolean finished) {
+    public Item(String description, Timestamp created, boolean done) {
         this.description = description;
-        this.createDate = created;
-        this.finished = finished;
+        this.created = created;
+        this.done = done;
     }
 
-    public Item(String description, boolean finished) {
+    public Item(String description, boolean done) {
         this.description = description;
         long droppedMillis = 1000 * (System.currentTimeMillis() / 1000);
-        this.createDate = new Timestamp(droppedMillis);
-        this.finished = finished;
+        this.created = new Timestamp(droppedMillis);
+        this.done = done;
     }
 
     public String getDescription() {
@@ -49,11 +49,11 @@ public class Item {
     }
 
     public Timestamp getCreated() {
-        return createDate;
+        return created;
     }
 
     public void setCreated(Timestamp created) {
-        this.createDate = created;
+        this.created = created;
     }
 
     public int getId() {
@@ -64,12 +64,12 @@ public class Item {
         this.id = id;
     }
 
-    public boolean isFinished() {
-        return finished;
+    public boolean isDone() {
+        return done;
     }
 
     public void setFinished(boolean finished) {
-        this.finished = finished;
+        this.done = done;
     }
 
     @Override
@@ -77,8 +77,8 @@ public class Item {
         return "Item{"
                 + "id=" + id
                 + ", description='" + description + '\''
-                + ", createDate=" + createDate
-                + ", finished=" + finished
+                + ", createDate=" + created
+                + ", finished=" + done
                 + '}';
     }
 }

@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
 public class HiberStore implements Store, AutoCloseable {
     private static final Logger LOG = LoggerFactory.getLogger(HiberStore.class.getName());
@@ -29,71 +30,55 @@ public class HiberStore implements Store, AutoCloseable {
         return Lazy.INST;
     }
 
+    private <T> T tx(final Function<Session, T> command) {
+        final Session session = sf.openSession();
+        final Transaction tx = session.beginTransaction();
+        try {
+            T rsl = command.apply(session);
+            tx.commit();
+            return rsl;
+        } catch (final Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
     @Override
     public Item create(Item element) {
-        try (Session session = sf.openSession()) {
-            session.beginTransaction();
-            session.save(element);
-            session.getTransaction().commit();
-        }
+        this.tx(
+                session -> session.save(element));
         return element;
     }
 
     @Override
-    public boolean update(int id, Item element) {
-        boolean result = true;
-        try (Session session = sf.openSession()) {
-            session.beginTransaction();
-            element.setId(id);
-            if (session.get(Item.class, id) != null) {
-                Query query = session.createQuery(
-                        "update ru.job4j.model.Item set finished = :finished where id = :id");
-                query.setParameter("finished", true);
-                query.setParameter("id", id);
-                query.executeUpdate();
-            } else {
-                result = false;
-            }
-            session.getTransaction().commit();
-        }
-        return result;
+    public void update(int id, Item element) {
+        this.tx(session -> session.createQuery(
+                "update ru.job4j.model.Item set done = :done where id = :id")
+                .setParameter("done", true)
+                .setParameter("id", id)
+                .executeUpdate()
+        );
     }
 
     @Override
     public boolean delete(int id) {
-        boolean result = false;
-        try (Session session = sf.openSession()) {
-            session.beginTransaction();
-            Item item = new Item(id);
-            if (session.get(Item.class, id) != null) {
-                session.delete(item);
-                result = true;
-            }
-            session.getTransaction().commit();
-        }
-        return result;
+        return tx(session -> {
+            session.delete(id);
+            return true;
+        });
     }
 
     @Override
     public Collection<Item> findAll() {
-        List<Item> result;
-        try (Session session = sf.openSession()) {
-            session.beginTransaction();
-            result = session.createQuery("from ru.job4j.model.Item").list();
-            session.getTransaction().commit();
-        }
-        return result;
+        return this.tx( session ->
+                session.createQuery("from ru.job4j.model.Item").list());
     }
 
     @Override
     public Item findById(int id) {
-        Item item;
-        try (Session session = sf.openSession()) {
-            session.beginTransaction();
-            item = session.get(Item.class, id);
-            session.getTransaction().commit();
-        }
-        return item;
+        return this.tx(session -> session.get(Item.class, id));
     }
 
     @Override

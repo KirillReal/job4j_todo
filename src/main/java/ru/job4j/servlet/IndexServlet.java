@@ -33,8 +33,8 @@ public class IndexServlet extends HttpServlet {
             JSONObject json = new JSONObject();
             json.put("idTask", task.getId());
             json.put("description", task.getDescription());
-            json.put("creatDate", task.getCreated());
-            json.put("finished", task.isFinished());
+            json.put("created", task.getCreated());
+            json.put("done", task.isDone());
             ar.put(json);
         }
         writer.println(ar);
@@ -63,8 +63,8 @@ public class IndexServlet extends HttpServlet {
             JSONObject json = new JSONObject();
             json.put("idTask", item.getId());
             json.put("description", item.getDescription());
-            json.put("creatDate", item.getCreated());
-            json.put("finished", item.isFinished());
+            json.put("created", item.getCreated());
+            json.put("done", item.isDone());
             writer.println(json);
             writer.flush();
         }
