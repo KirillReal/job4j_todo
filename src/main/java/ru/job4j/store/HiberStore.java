@@ -1,5 +1,6 @@
 package ru.job4j.store;
 
+import ru.job4j.model.Category;
 import ru.job4j.model.Item;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -74,12 +75,25 @@ public class HiberStore implements Store, AutoCloseable {
     @Override
     public Collection<Item> findAll() {
         return this.tx(session ->
-                session.createQuery("from ru.job4j.model.Item").list());
+                session.createQuery("select distinct i from Item i join fetch i.categories order by i.id",
+                        Item.class)
+                        .list());
     }
 
     @Override
     public Item findById(int id) {
         return this.tx(session -> session.get(Item.class, id));
+    }
+
+    @Override
+    public List<Category> findAllCategory() {
+        return this.tx(
+                session -> session.createQuery("from ru.job4j.model.Category").list());
+    }
+
+    @Override
+    public Category findByIdCategory(int id) {
+        return this.tx(session -> session.get(Category.class, id));
     }
 
     @Override

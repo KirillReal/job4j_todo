@@ -60,12 +60,16 @@
                     </div>
                     <div class="form-group">
                         <label>Password</label>
-                        <input type="text" class="form-control" id="password" name="password">
+                        <input type="password" class="form-control" id="password" name="password">
                     </div>
-                    <button type="submit" class="btn btn-primary" onclick="return validate()">Sign in</button>
-                </form>
-                <form action="<%=request.getContextPath()%>/reg" method="get">
-                    <button type="submit" class="btn btn-primary">Sign up</button>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" onclick="return validate()">Sign in</button>
+                    </div>
+                    <div class="form-group">
+                        <form action="<%=request.getContextPath()%>/reg" method="get">
+                            <button type="submit" class="btn btn-primary">Sign up</button>
+                        </form>
+                    </div>
                 </form>
             </div>
         </div>

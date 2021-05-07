@@ -19,6 +19,6 @@
 
         <mapping class="ru.job4j.model.Item"/>
         <mapping class="ru.job4j.model.User"/>
-
+        <mapping class="ru.job4j.model.Category"/>
     </session-factory>
 </hibernate-configuration>

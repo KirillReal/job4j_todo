@@ -1,9 +1,11 @@
 package ru.job4j.store;
 
+import ru.job4j.model.Category;
 import ru.job4j.model.Item;
 import ru.job4j.model.User;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface Store {
     Item create(Item element);
@@ -16,4 +18,7 @@ public interface Store {
 
     Item findById(int id);
 
+    List<Category> findAllCategory();
+
+    Category findByIdCategory(int id);
 }
