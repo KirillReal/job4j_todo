@@ -5,7 +5,7 @@ function saveItem() {
         $.ajax({
             type: 'POST',
             crossdomain: true,
-            url: 'http://localhost:8080/TODO/index',
+            url: 'http://localhost:8080/todo/index',
             data: ({description: $('#newTask').val(),
                 categories: $("#category").val()}),
             dataType: 'json',
@@ -14,7 +14,7 @@ function saveItem() {
             let addTr = '<tr>'
                 + '<td>' + data.idTask + '</td>'
                 + '<td>' + data.description + '</td>'
-                + '<td>' + data.created+ '</td>'
+                + '<td>' + data.created + '</td>'
                 + '<td>' + data.userName + '</td>';
             addTr += '<td>' + '<ul>'
             for (let k = 0; k < data.categories.length; k++) {
@@ -25,7 +25,7 @@ function saveItem() {
                 + 'value="' + data.idTask + '">' + '</td>' + '</tr>';
             $('#table tr:last').after(addTr);
         }).fail(function (err) {
-            alert("Error saving task");
+            alert("Error save task");
         });
     }
 }
@@ -37,7 +37,7 @@ function loadAll() {
         crossdomain: true,
         dataType: 'json',
         contentType: "text/json;charset=utf-8",
-        url: 'http://localhost:8080/TODO/index',
+        url: 'http://localhost:8080/todo/index',
     }).done(function (data) {
         let addTr = '';
         $.each(data, function (i, item) {
@@ -51,7 +51,7 @@ function loadAll() {
                 addTr += '<li>' + item.categories[k] + '</li>'
             }
             addTr += '</ul>' + '</td>'
-            if (item.done !== true) {
+            if (item.finished !== true) {
                 addTr += '<td>' + '<input type="checkbox" name="done" id="' + item.idTask + '" onchange = "finishTask(this.id)"'
                     + 'value="' + item.idTask + '">' + '</td>' + '</tr>';
             } else {
@@ -60,7 +60,7 @@ function loadAll() {
         });
         $('#TableBody').append(addTr);
     }).fail(function (err) {
-        alert("Failed to load tasks");
+        alert("не удалось загрузить таски");
     });
 }
 
@@ -70,7 +70,7 @@ function viewTasks() {
         type: 'GET',
         crossdomain: true,
         dataType: 'json',
-        url: 'http://localhost:8080/TODO/index',
+        url: 'http://localhost:8080/todo/index',
     }).done(function (data) {
         let addTr = '';
         var element = $('input[type="checkbox"]');
@@ -78,7 +78,7 @@ function viewTasks() {
             loadAll();
         } else {
             $.each(data, function (i, item) {
-                if (item.done !== true) {
+                if (item.finished !== true) {
                     addTr += '<tr>'
                         + '<td>' + item.idTask + '</td>'
                         + '<td>' + item.description + '</td>'
@@ -96,23 +96,34 @@ function viewTasks() {
         }
         $('#TableBody').append(addTr);
     }).fail(function (err) {
-        alert("Failed load tasks");
+        alert("Error load task");
     });
 }
 
-$(document).ready(
-    function () {
+$(document).ready(function() {
         getCateg();
         loadAll();
         userView();
     }
 );
 
+
+function finishTask(id) {
+    $("#" + id).attr('disabled', !$("#" + id).attr('disabled'));
+    $.ajax({
+        type: 'POST',
+        crossdomain: true,
+        url: 'http://localhost:8080/todo/index',
+        data: {idTask: id},
+    }).done(
+        alert("task №" + id + " is finished"));
+}
+
 function userView() {
     $.ajax({
         type: 'GET',
         crossdomain: true,
-        url: 'http://localhost:8080/TODO/user',
+        url: 'http://localhost:8080/todo/user',
         datatype: 'json',
     }).done(function (data) {
         $('#currentUser').append('current user : ' + data.user)
@@ -123,28 +134,17 @@ function getCateg() {
     $.ajax({
         type: 'GET',
         crossdomain: true,
-        url: 'http://localhost:8080/TODO/category',
+        url: 'http://localhost:8080/todo/category',
     }).done(function (data) {
         let s = '<select class="form-control" id="category" name="category" multiple>';
         $.each(data, function (i, category) {
-            s += '<option value="' + category.idCat + '">' + category.nameCat + '</option>';
+            s += '<option value="' + category.id + '">' + category.name + '</option>';
         });
         s += '</select>';
         $('#categories').append(s);
     }).fail(function (err) {
         alert("category not load");
     });
-}
-
-function finishTask(id) {
-    $("#" + id).attr('disabled', !$("#" + id).attr('disabled'));
-    $.ajax({
-        type: 'POST',
-        crossdomain: true,
-        url: 'http://localhost:8080/TODO/index',
-        data: {idTask: id},
-    }).done(
-        alert("task №" + id + " is done"));
 }
 
 

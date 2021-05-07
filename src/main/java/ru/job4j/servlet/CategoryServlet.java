@@ -27,8 +27,8 @@ public class CategoryServlet extends HttpServlet {
         JSONArray ar = new JSONArray();
         for (Category category :  categories) {
             JSONObject json = new JSONObject();
-            json.put("idCat", category.getId());
-            json.put("nameCat", category.getName());
+            json.put("id", category.getId());
+            json.put("name", category.getName());
             ar.put(json);
         }
         writer.println(ar);

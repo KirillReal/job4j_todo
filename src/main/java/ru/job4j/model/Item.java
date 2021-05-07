@@ -3,6 +3,7 @@ package ru.job4j.model;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -12,7 +13,9 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String description;
-    private Timestamp created;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created;
+
     private boolean done;
 
     @ManyToOne
@@ -28,7 +31,7 @@ public class Item {
         this.id = id;
     }
 
-    public Item(int id, String description, Timestamp created, boolean done) {
+    public Item(int id, String description, Date created, boolean done) {
         this.id = id;
         this.description = description;
         this.created = created;
@@ -44,7 +47,7 @@ public class Item {
     public Item(String description, boolean done, User user) {
         this.description = description;
         long droppedMillis = 1000 * (System.currentTimeMillis() / 1000);
-        this.created = new Timestamp(droppedMillis);
+        this.created = new Date(droppedMillis);
         this.done = done;
         this.user = user;
     }
@@ -64,7 +67,7 @@ public class Item {
         this.description = description;
     }
 
-    public Timestamp getCreated() {
+    public Date getCreated() {
         return created;
     }
 
@@ -84,7 +87,7 @@ public class Item {
         return done;
     }
 
-    public void setFinished(boolean done) {
+    public void setDone(boolean done) {
         this.done = done;
     }
 

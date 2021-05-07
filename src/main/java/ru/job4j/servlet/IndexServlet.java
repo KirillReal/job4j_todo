@@ -23,11 +23,10 @@ public class IndexServlet extends HttpServlet {
         resp.setContentType("json");
         resp.setCharacterEncoding("UTF-8");
         resp.setHeader("Access-Control-Allow-Origin", "*");
-        String description = req.getParameter("description");
         PrintWriter writer = new PrintWriter(resp.getOutputStream(), true, StandardCharsets.UTF_8);
         JSONArray ar = new JSONArray();
         List<Item> tasks = (List<Item>) HiberStore.instOf().findAll();
-        for (Item task :  tasks) {
+        for (Item task : tasks) {
             JSONObject json = new JSONObject();
             json.put("idTask", task.getId());
             json.put("description", task.getDescription());
@@ -51,7 +50,7 @@ public class IndexServlet extends HttpServlet {
         if (req.getParameter("idTask") != null)  {
             int id = Integer.parseInt(req.getParameter("idTask"));
             Item item = HiberStore.instOf().findById(id);
-            item.setFinished(true);
+            item.setDone(true);
             HiberStore.instOf().update(id, item);
         } else {
             resp.setContentType("json");

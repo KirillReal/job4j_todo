@@ -1,17 +1,15 @@
 package ru.job4j.store;
 
-import ru.job4j.model.Category;
-import ru.job4j.model.Item;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.job4j.model.User;
+import ru.job4j.model.Category;
+import ru.job4j.model.Item;
 
 import java.util.Collection;
 import java.util.List;
@@ -40,6 +38,7 @@ public class HiberStore implements Store, AutoCloseable {
             tx.commit();
             return rsl;
         } catch (final Exception e) {
+            LOG.error(e.getMessage(), e);
             session.getTransaction().rollback();
             throw e;
         } finally {
