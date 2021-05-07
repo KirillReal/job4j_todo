@@ -1,12 +1,11 @@
 package ru.job4j.servlet;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import ru.job4j.model.Item;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import ru.job4j.model.Item;
 import ru.job4j.model.User;
 import ru.job4j.store.HiberStore;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,10 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class IndexServlet extends HttpServlet {
     @Override

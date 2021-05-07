@@ -12,3 +12,5 @@ jQuery, Ajax, JSON, Apache Tomcat, bootstrap
 **Demonstration of the application:**
 
 ![alt text](images/TODO%20List.png)
+![alt text](images/Reg.png)
+![alt text](images/Login.png)
